@@ -57,6 +57,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
     private int mScrollState;
     private int mOrientation;
     private boolean mCentered;
+    private String mAlignment = "left"; // left, center or right
     private boolean mSnap;
 
     private int mTouchSlop;
@@ -105,6 +106,19 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mGap = a.getDimension(R.styleable.CirclePageIndicator_gap, defaultGap);
         mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
 
+        // ALIGNMENT
+        String alignment = a.getString(R.styleable.CirclePageIndicator_alignment);
+        if (alignment != null) {
+            if (!alignment.isEmpty()) {
+                if (alignment.contentEquals("center")) {
+                    mAlignment = "center";
+                    mCentered = true;
+                }
+                else if (alignment.contentEquals("right"))
+                    mAlignment = "right";
+            }
+        }
+
         Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);
         if (background != null) {
           setBackgroundDrawable(background);
@@ -116,7 +130,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
     }
 
-
     public void setCentered(boolean centered) {
         mCentered = centered;
         invalidate();
@@ -124,6 +137,21 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     public boolean isCentered() {
         return mCentered;
+    }
+
+    public void setAlignment (String alignment) {
+        if (alignment != null) {
+            if (alignment.contentEquals("center")) {
+                mAlignment = "center";
+                mCentered = true;
+            }
+            else if (alignment.contentEquals("right"))
+                mAlignment = "right";
+        }
+    }
+
+    public String getAlignment () {
+        return mAlignment;
     }
 
     public void setPageColor(int pageColor) {
@@ -244,6 +272,9 @@ public class CirclePageIndicator extends View implements PageIndicator {
         float longOffset = longPaddingBefore + mRadius + mPaintStroke.getStrokeWidth() / 2;
         if (mCentered) {
             longOffset += ((longSize - longPaddingBefore - longPaddingAfter) - (count * threeRadius - mRadius - mGap)) / 2.0f;
+        }
+        else if (mAlignment.contentEquals("right")) {
+            longOffset += ((longSize - longPaddingBefore - longPaddingAfter) - (count * threeRadius - mRadius - mGap));
         }
 
         float dX;
