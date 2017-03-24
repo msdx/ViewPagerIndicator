@@ -57,6 +57,8 @@
         <attr name="strokeWidth" />
         <!-- View background -->
         <attr name="android:background"/>
+        <!-- Bullets Alignment -->
+        <attr name="alignment" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="LinePageIndicator">
