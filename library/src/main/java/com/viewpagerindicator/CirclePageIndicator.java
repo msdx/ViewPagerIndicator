@@ -114,8 +114,14 @@ public class CirclePageIndicator extends View implements PageIndicator {
                     mAlignment = "center";
                     mCentered = true;
                 }
-                else if (alignment.contentEquals("right"))
+                else if (alignment.contentEquals("right")) {
                     mAlignment = "right";
+                    mCentered = false;
+                }
+                else {
+                    mAlignment = "left";
+                    mCentered = false;
+                }
             }
         }
 
@@ -145,9 +151,17 @@ public class CirclePageIndicator extends View implements PageIndicator {
                 mAlignment = "center";
                 mCentered = true;
             }
-            else if (alignment.contentEquals("right"))
+            else if (alignment.contentEquals("right")) {
                 mAlignment = "right";
+                mCentered = false;
+            }
+            else {
+                mAlignment = "left";
+                mCentered = false;
+            }
         }
+
+        invalidate();
     }
 
     public String getAlignment () {
